@@ -1,0 +1,35 @@
+﻿@page "/"
+@page "/{kategorijaurl}"
+@inject IKategorijaService KategorijaService;
+
+@if (kategorija !=null)
+{
+    <h1>dijelovi za @kategorija.Ime dio!</h1>
+        <ArtiklList KategorijaId="@kategorija.Id" />
+}
+else
+{
+    <h1>dobro dosli u stiburek ducan</h1>
+        <ArtiklList />
+}
+
+
+@code
+{  [Parameter]
+    public string KategorijaUrl { get; set; }
+    private Kategorija kategorija=null;
+
+    protected override void OnParametersSet()
+    {
+        if (KategorijaUrl != null)
+        {
+            kategorija = KategorijaService.Kategorija.FirstOrDefault(c => c.Url.ToLower().Equals(KategorijaUrl.ToLower()));
+        }
+        else
+        {
+            kategorija = null;
+        }
+    }
+
+}
+

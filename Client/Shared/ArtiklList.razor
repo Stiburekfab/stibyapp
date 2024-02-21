@@ -1,0 +1,36 @@
+﻿@inject IArtiklService ArtiklService
+<ul class="list-unstyled">
+    @foreach (var artikl in KategorijaId == null ? ArtiklService.Artikli:ArtiklService.Artikli.Where(p => p.KategorijaId == KategorijaId))
+    {
+            <li class="media my-3">
+                <div class="media-img-wrapper mr-2">
+                    <a href="/artikl/@artikl.Id">
+                        <img class="media-img" src="@artikl.Slika" alt="@artikl.Naslov" /> 
+                    </a>
+                </div>
+                    <div class="media-body">
+                    <a href="/Artikl/@artikl.Id">
+                        <h4 class="mb-0">@artikl.Naslov</h4>
+                    </a>
+                    <p>@artikl.Opis</p>
+                    <h5 class="price">
+                        $@artikl.Cijena
+                    </h5>
+                    </div>
+            </li>
+    }
+</ul>
+
+
+
+
+
+@code {
+    [Parameter]
+    public int? KategorijaId { get; set; } = null;
+
+    protected override void OnInitialized()
+    {
+        ArtiklService.LoadArtikli();
+    }
+}

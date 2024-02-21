@@ -1,0 +1,29 @@
+﻿@page "/Artikl/{Id}"
+@inject IArtiklService ArtiklService
+
+<div class="media">
+    <div class="media-img-big-wrapper mr-2">
+        <img class="media-img-big" src="@artikl.Slika" alt ="artikl.Naslov" />
+    </div>
+    <div class="media-body">
+    <h2 classs="mb-0">@artikl.Naslov</h2>
+    <p>@artikl.Opis</p>
+    <button class="btn btn-primary"><i class="oi oi-cart"></i>&nbsp;&nbsp;&nbsp;&nbsp;dodaj u kosaricu</button>
+    </div>
+</div>
+ 
+
+@code {
+    private Artikl artikl = null;
+    [Parameter]
+    public string Id  { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (ArtiklService.Artikli == null || ArtiklService.Artikli.Count== 0)
+        {
+            ArtiklService.LoadArtikli();
+        }
+        artikl = ArtiklService.Artikli.FirstOrDefault(p => p.Id == Int32.Parse(Id));
+    }
+}
